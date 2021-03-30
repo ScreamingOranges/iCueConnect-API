@@ -52,6 +52,16 @@ class icueConnect:
             x += dx
         time.sleep(.05)
 
+    def solidColor(self,RGB_val):
+        cnt = len(all_leds)
+        for di in range(cnt):
+            device_leds = all_leds[di]
+            for led in device_leds:
+                #print(led)
+                device_leds[led] = (RGB_val[0],RGB_val[1],RGB_val[2])
+            sdk.set_led_colors_buffer_by_device_index(di, device_leds)
+        sdk.set_led_colors_flush_buffer()
+
     def __init__(self):
         global sdk
         global all_leds
@@ -82,9 +92,13 @@ def  my_func(*args, **kwargs):
     result = args[0]
     print(result)
     result = json.loads(result)
-    RGB_val = result["RGB_PULSE"]
     conn = icueConnect()
-    conn.perform_pulse_effect(1000,RGB_val)
+    if "RGB_PULSE" in result:
+        RGB_val = result["RGB_PULSE"]
+        conn.perform_pulse_effect(1000,RGB_val)
+    elif "RGB_SOLID" in result:
+        RGB_val = result["RGB_SOLID"]
+        conn.solidColor(RGB_val)
     del conn
 
 # We can't subscribe until we've connected, so we use a callback handler
