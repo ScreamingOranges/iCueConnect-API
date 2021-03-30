@@ -95,9 +95,11 @@ def  my_func(*args, **kwargs):
     print(result)
     result = json.loads(result)
     conn = icueConnect()
+    sdk.set_layer_priority(255)#iCue's priority is 127
     if "RGB_PULSE" in result:
         RGB_val = result["RGB_PULSE"]
         conn.perform_pulse_effect(1000,RGB_val)
+        sdk.set_layer_priority(0)
     elif "RGB_SOLID" in result:
         RGB_val = result["RGB_SOLID"]
         conn.solidColor(RGB_val)
