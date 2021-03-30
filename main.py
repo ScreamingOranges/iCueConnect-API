@@ -9,12 +9,14 @@ import logging
 import json 
 
 """
-ONLY THESE FUCKING VERSIONS WORKED
+ONLY THESE PACKAGE VERSIONS WORKED
 pip install --force-reinstall websocket-client==0.48.0
 pusher                      3.0.0    
 Pysher                      1.0.3
 six                         1.15.0
 
+JSON EXAMPLE
+{"RGB_SOLID":[0,0,0]}
 """
 
 
