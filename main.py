@@ -109,7 +109,7 @@ def  my_func(*args, **kwargs):
 # to subscribe when able
 def connect_handler(data):
     channel = pusher.subscribe('RGB_CONN')  # channel: RGB_CONN
-    channel.bind('PULSE', my_func)          # PULSE:   PULSE
+    channel.bind('PULSE', my_func)          # event:   PULSE
 
 pusher.connection.bind('pusher:connection_established', connect_handler)
 pusher.connect()
