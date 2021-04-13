@@ -80,14 +80,6 @@ class icueConnect:
         if not all_leds:
             return      
 
-
-# Add a logging handler so we can see the raw communication data
-root = logging.getLogger()
-root.setLevel(logging.INFO)
-ch = logging.StreamHandler(sys.stdout)
-root.addHandler(ch)
-pusher = pysher.Pusher("3b584ee38d8b91d475cd")
-
 def  my_func(*args, **kwargs):
     print("processing Args:", args)
     #print("processing Kwargs:", kwargs)
@@ -105,11 +97,17 @@ def  my_func(*args, **kwargs):
         conn.solidColor(RGB_val)
     del conn
 
-# We can't subscribe until we've connected, so we use a callback handler
-# to subscribe when able
+# We can't subscribe until we've connected, so we use a callback handler to subscribe when able
 def connect_handler(data):
     channel = pusher.subscribe('RGB_CONN')  # channel: RGB_CONN
     channel.bind('PULSE', my_func)          # event:   PULSE
+
+# Add a logging handler so we can see the raw communication data
+root = logging.getLogger()
+root.setLevel(logging.INFO)
+ch = logging.StreamHandler(sys.stdout)
+root.addHandler(ch)
+pusher = pysher.Pusher("3b584ee38d8b91d475cd")
 
 pusher.connection.bind('pusher:connection_established', connect_handler)
 pusher.connect()
