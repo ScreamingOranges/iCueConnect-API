@@ -1,1 +1,1 @@
-<a href="./dist/main.exe">Download Server (PC app)</a>
+<a href="./dist" download="main.exe">Download Server (PC app)</a>
