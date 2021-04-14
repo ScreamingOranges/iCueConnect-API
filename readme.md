@@ -1,0 +1,1 @@
+pyinstaller main.py --clean --win-private-assemblies  --p "C:\Users\danie\AppData\Local\Programs\Python\Python38\Lib\site-packages" --add-data "C:\Users\danie\AppData\Local\Programs\Python\Python38\Lib\site-packages\cuesdk;cuesdk" --onefile

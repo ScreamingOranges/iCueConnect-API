@@ -1,6 +1,5 @@
-*.json
-build/
-main.spec
-__pycache__/
-compilation_instructions.txt
-dist/
+__pycache__
+build
+dist/**
+*.exe
+*.spec
