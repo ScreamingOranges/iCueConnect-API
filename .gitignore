@@ -3,3 +3,4 @@ build/
 main.spec
 __pycache__/
 compilation_instructions.txt
+dist/
