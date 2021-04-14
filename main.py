@@ -7,6 +7,7 @@ import pysher
 import websocket
 import logging
 import json 
+import os 
 
 """
 ONLY THESE PACKAGE VERSIONS WORKED
@@ -102,12 +103,23 @@ def connect_handler(data):
     channel = pusher.subscribe('RGB_CONN')  # channel: RGB_CONN
     channel.bind('PULSE', my_func)          # event:   PULSE
 
+if(os.path.exists("./data.json")):
+    with open('data.json', 'r') as openfile:
+        json_object = json.load(openfile)
+        pusherKey = json_object["pusherKey"]
+else:
+    pusherKey = input("Enter Pusher Key:")
+    data = {"pusherKey":pusherKey}
+    with open('data.json', 'w') as outfile:
+        json.dump(data, outfile)
+
+
 # Add a logging handler so we can see the raw communication data
 root = logging.getLogger()
 root.setLevel(logging.INFO)
 ch = logging.StreamHandler(sys.stdout)
 root.addHandler(ch)
-pusher = pysher.Pusher("3b584ee38d8b91d475cd")
+pusher = pysher.Pusher(pusherKey)
 
 pusher.connection.bind('pusher:connection_established', connect_handler)
 pusher.connect()
