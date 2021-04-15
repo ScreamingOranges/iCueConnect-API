@@ -1,69 +1,34 @@
-import sys, getopt
-import time
-import pysher
-import websocket
-import logging
-import json 
-import os 
+from PyQt5.QtGui import * 
+from PyQt5.QtWidgets import * 
+import threading
+from pusherConnect import pusherConnect
+  
 
-#import from icueConnect to get icue controls
-from icueConnect import icueConnect
+def connectionStarter():
+    print("HI")
 
-"""
-ONLY THESE PACKAGE VERSIONS WORKED
-pip install --force-reinstall websocket-client==0.48.0
-pusher                      3.0.0    
-Pysher                      1.0.3
-six                         1.15.0
+app = QApplication([])
+app.setQuitOnLastWindowClosed(False)
 
-JSON EXAMPLE
-{"RGB_SOLID":[0,0,0]}
-"""
+# Adding an icon
+icon = QIcon("icon.png")
 
+# Adding item on the menu bar
+tray = QSystemTrayIcon()
+tray.setIcon(icon)
+tray.setVisible(True)
 
-def  my_func(*args, **kwargs):
-    print("processing Args:", args)
-    #print("processing Kwargs:", kwargs)
-    result = args[0]
-    print(result)
-    result = json.loads(result)
-    conn = icueConnect()
-    conn.setPriority(255)#iCue's priority is 127
-    if "RGB_PULSE" in result:
-        RGB_val = result["RGB_PULSE"]
-        conn.perform_pulse_effect(1000,RGB_val)
-        conn.setPriority(0)
-    elif "RGB_SOLID" in result:
-        RGB_val = result["RGB_SOLID"]
-        conn.solidColor(RGB_val)
-    del conn
+# Creating the options
+menu = QMenu()
+connectTriger = QAction("Connect")
+connectTriger.triggered.connect(connectionStarter)
+menu.addAction(connectTriger)
 
-# We can't subscribe until we've connected, so we use a callback handler to subscribe when able
-def connect_handler(data):
-    channel = pusher.subscribe('RGB_CONN')  # channel: RGB_CONN
-    channel.bind('PULSE', my_func)          # event:   PULSE
+# To quit the app
+quit = QAction("Quit")
+quit.triggered.connect(app.quit)
+menu.addAction(quit)
 
-if(os.path.exists("./data.json")):
-    with open('data.json', 'r') as openfile:
-        json_object = json.load(openfile)
-        pusherKey = json_object["pusherKey"]
-else:
-    pusherKey = input("Enter Pusher Key:")
-    data = {"pusherKey":pusherKey}
-    with open('data.json', 'w') as outfile:
-        json.dump(data, outfile)
-
-
-# Add a logging handler so we can see the raw communication data
-root = logging.getLogger()
-root.setLevel(logging.INFO)
-ch = logging.StreamHandler(sys.stdout)
-root.addHandler(ch)
-pusher = pysher.Pusher(pusherKey)
-
-pusher.connection.bind('pusher:connection_established', connect_handler)
-pusher.connect()
-
-while True:
-    # Do other things in the meantime here...
-    time.sleep(1)
+# Adding options to the System Tray
+tray.setContextMenu(menu)
+app.exec_()
