@@ -1,13 +1,15 @@
 from PyQt5.QtGui import * 
 from PyQt5.QtWidgets import * 
 import threading
+import sys
 from pusherConnect import pusherConnect
-  
-
-def connectionStarter():
-    print("HI")
 
 app = QApplication([])
+
+thread_P = threading.Thread(target = pusherConnect)
+thread_P.setDaemon(True)
+thread_P.start()
+
 app.setQuitOnLastWindowClosed(False)
 
 # Adding an icon
@@ -20,9 +22,6 @@ tray.setVisible(True)
 
 # Creating the options
 menu = QMenu()
-connectTriger = QAction("Connect")
-connectTriger.triggered.connect(connectionStarter)
-menu.addAction(connectTriger)
 
 # To quit the app
 quit = QAction("Quit")
