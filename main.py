@@ -1,18 +1,31 @@
+import os 
 import sys
 import PyQt5
 import PyQt5.QtGui
 import PyQt5.QtWidgets
 import threading
+import json 
 import pusherConnect
+import inputGUI
 import tray_rc 
+
+
+app = PyQt5.QtWidgets.QApplication(sys.argv)
+app.setQuitOnLastWindowClosed(True)
+
+if(os.path.exists("./data.json")):
+    with open('data.json', 'r') as openfile:
+        json_object = json.load(openfile)
+        pusherKey = json_object["pusherKey"]
+else:
+    pusherKey = inputGUI.inputGUI().getText()
+    data = {"pusherKey":pusherKey}
+    with open('data.json', 'w') as outfile:
+        json.dump(data, outfile)
 
 thread_P = threading.Thread(target = pusherConnect.pusherConnect)
 thread_P.setDaemon(True)
 thread_P.start()
-
-app = PyQt5.QtWidgets.QApplication(sys.argv)
-app.setQuitOnLastWindowClosed(False)
-
 
 # Adding an icon
 icon = PyQt5.QtGui.QIcon(":icon.png")
