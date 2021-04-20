@@ -13,8 +13,8 @@ class inputGUI(PyQt5.QtWidgets.QWidget):
         sys.exit()
 
 """
-if __name__ == '__main__':
-    app = PyQt5.QtWidgets.QApplication(sys.argv)
-    app.setQuitOnLastWindowClosed(False)
-    pusherKey = inputGUI().getText()
+#example call
+app = PyQt5.QtWidgets.QApplication(sys.argv)
+app.setQuitOnLastWindowClosed(False)
+pusherKey = inputGUI().getText()
 """ 

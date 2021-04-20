@@ -65,3 +65,8 @@ class icueConnect:
         all_leds = self.get_available_leds()
         if not all_leds:
             return      
+
+"""
+#example call
+conn = icueConnect()
+"""

@@ -10,7 +10,7 @@ import icueConnect
 
 class pusherConnect:
     def __init__(self):
-        if(os.path.exists("./data.json")):
+        if os.path.exists("./data.json"):
             with open('data.json', 'r') as openfile:
                 json_object = json.load(openfile)
                 pusherKey = json_object["pusherKey"]
@@ -47,7 +47,9 @@ class pusherConnect:
     # We can't subscribe until we've connected, so we use a callback handler to subscribe when able
     def connect_handler(self, data):
         channel = pusher.subscribe('RGB_CONN')  # channel: RGB_CONN
-        channel.bind('PULSE', self.my_func)          # event:   PULSE
+        channel.bind('PULSE', self.my_func)     # event:   PULSE
 
-
-#pusherConnect()
+"""
+#example call
+pusherConnect()
+"""
