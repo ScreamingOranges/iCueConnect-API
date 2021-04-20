@@ -4,6 +4,8 @@ import pysher
 #import logging
 import json 
 import os 
+import PyQt5
+import PyQt5.QtWidgets
 import icueConnect
 
 class pusherConnect:
@@ -12,11 +14,6 @@ class pusherConnect:
             with open('data.json', 'r') as openfile:
                 json_object = json.load(openfile)
                 pusherKey = json_object["pusherKey"]
-        else:
-            pusherKey = input("Enter Pusher Key:")
-            data = {"pusherKey":pusherKey}
-            with open('data.json', 'w') as outfile:
-                json.dump(data, outfile)
         # Add a logging handler so we can see the raw communication data
         #root = logging.getLogger()
         #root.setLevel(logging.INFO)
