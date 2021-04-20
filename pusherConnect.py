@@ -1,24 +1,11 @@
-import sys, getopt
+import sys
 import time
 import pysher
-import websocket
-import logging
+#import logging
 import json 
 import os 
+import icueConnect
 
-#import from icueConnect to get icue controls
-from icueConnect import icueConnect
-
-"""
-ONLY THESE PACKAGE VERSIONS WORKED
-pip install --force-reinstall websocket-client==0.48.0
-pusher                      3.0.0    
-Pysher                      1.0.3
-six                         1.15.0
-
-JSON EXAMPLE
-{"RGB_SOLID":[0,0,0]}
-"""
 class pusherConnect:
     def __init__(self):
         if(os.path.exists("./data.json")):
@@ -31,10 +18,10 @@ class pusherConnect:
             with open('data.json', 'w') as outfile:
                 json.dump(data, outfile)
         # Add a logging handler so we can see the raw communication data
-        root = logging.getLogger()
-        root.setLevel(logging.INFO)
-        ch = logging.StreamHandler(sys.stdout)
-        root.addHandler(ch)
+        #root = logging.getLogger()
+        #root.setLevel(logging.INFO)
+        #ch = logging.StreamHandler(sys.stdout)
+        #root.addHandler(ch)
         global pusher
         pusher = pysher.Pusher(pusherKey)
         pusher.connection.bind('pusher:connection_established', self.connect_handler)
@@ -44,12 +31,12 @@ class pusherConnect:
             time.sleep(1)
 
     def  my_func(self, *args, **kwargs):
-        print("processing Args:", args)
+        #print("processing Args:", args)
         #print("processing Kwargs:", kwargs)
         result = args[0]
-        print(result)
+        #print(result)
         result = json.loads(result)
-        conn = icueConnect()
+        conn = icueConnect.icueConnect()
         conn.setPriority(255)#iCue's priority is 127
         if "RGB_PULSE" in result:
             RGB_val = result["RGB_PULSE"]

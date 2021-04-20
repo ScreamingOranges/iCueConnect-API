@@ -1,6 +1,6 @@
-from cuesdk import CueSdk
-from pprint import pprint
-from inspect import getmembers
+import cuesdk
+#from pprint import pprint
+#from inspect import getmembers
 import time
 
 class icueConnect:
@@ -54,7 +54,7 @@ class icueConnect:
         global sdk
         global all_leds
         global devices
-        sdk = CueSdk()
+        sdk = cuesdk.CueSdk()
         connected = sdk.connect()
         if not connected:
             err = sdk.get_last_error()
