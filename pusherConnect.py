@@ -42,6 +42,8 @@ class pusherConnect:
         elif "RGB_SOLID" in result:
             RGB_val = result["RGB_SOLID"]
             conn.solidColor(RGB_val)
+        elif "RGB_RESET" in result:
+            conn.setPriority(0)
         del conn
 
     # We can't subscribe until we've connected, so we use a callback handler to subscribe when able
