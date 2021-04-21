@@ -7,7 +7,10 @@ import threading
 import json 
 import pusherConnect
 import inputGUI
-import tray_rc 
+import icueConnect
+import tray_rc
+
+
 
 def startDaemonThread():
     thread_P = threading.Thread(target = pusherConnect.pusherConnect)
@@ -20,6 +23,11 @@ def checkJsonFile():
         data = {"pusherKey":pusherKey}
         with open('data.json', 'w') as outfile:
             json.dump(data, outfile)
+            
+def colorResetCall():
+    conn = icueConnect.icueConnect()
+    conn.setPriority(0)
+    del conn
 
 def main():
     app = PyQt5.QtWidgets.QApplication(sys.argv)
@@ -33,6 +41,10 @@ def main():
     tray.setVisible(True)
     # Creating the options
     menu = PyQt5.QtWidgets.QMenu()
+    # To reset color 
+    colorReset = PyQt5.QtWidgets.QAction("Revert Control")
+    colorReset.triggered.connect(colorResetCall)
+    menu.addAction(colorReset)
     # To quit the app
     quit = PyQt5.QtWidgets.QAction("Quit")
     quit.triggered.connect(app.quit)
