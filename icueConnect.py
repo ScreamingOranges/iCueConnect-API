@@ -85,7 +85,6 @@ class icueConnect:
         if not all_leds:
             return      
 
-"""
 #example call
 conn = icueConnect()
 red = [255,0,0]
@@ -95,8 +94,7 @@ devices = conn.getDeviceNames()
 for key in range(len(devices)):
     print("ID:"+str(key)+" | Device:"+str(devices[key]))
 conn.solidColor(red)
-device = input("Chose device:")
+device = input("Choose device:")
 conn.setLedsByDevice(int(device),green)
 input("Pause...")
 del conn
-"""
