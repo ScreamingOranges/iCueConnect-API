@@ -10,6 +10,7 @@ class icueConnect:
         for device_index in range(device_count):
             led_positions = sdk.get_led_positions_by_device_index(device_index)
             leds.append(led_positions)
+            deviceToLed[device_index] = led_positions
             dev = sdk.get_device_info(device_index)
             #print(dev.__dict__['model'])
             #print(type(dev.__dict__['model']))
@@ -17,6 +18,22 @@ class icueConnect:
             if dev.__dict__['model'] == 'Lighting Node Pro' and dev.__dict__['led_count'] == 76:
                 self.ll120s = device_index
         return leds
+
+    def getDevicesIdByName(self):
+        deviceMap = {}
+        devices = sdk.get_devices()
+        for device in range(len(devices)):
+            deviceMap[device] = devices[device]
+        return deviceMap
+
+    def getDeviceNames(self):
+        return deviceIdToName
+
+    def setLedsByDevice(self, device,RGB_val):
+        for led in deviceToLed[device]:
+            deviceToLed[device][led] = (RGB_val[0],RGB_val[1],RGB_val[2])
+        sdk.set_led_colors_buffer_by_device_index(device, deviceToLed[device])
+        sdk.set_led_colors_flush_buffer()
 
     def setPriority(self,value):
         sdk.set_layer_priority(value)
@@ -53,20 +70,33 @@ class icueConnect:
     def __init__(self):
         global sdk
         global all_leds
-        global devices
+        global deviceToLed
+        global deviceIdToName
+        deviceToLed = {}
+        deviceIdToName = {}
         sdk = cuesdk.CueSdk()
         connected = sdk.connect()
         if not connected:
             err = sdk.get_last_error()
             print("Handshake failed: %s" % err)
             return
-        devices = sdk.get_devices()
-        #print(devices)
         all_leds = self.get_available_leds()
+        deviceIdToName = self.getDevicesIdByName()
         if not all_leds:
             return      
 
 """
 #example call
 conn = icueConnect()
+red = [255,0,0]
+green = [0,255,0]
+devices = conn.getDeviceNames()
+#print id to device mapping
+for key in range(len(devices)):
+    print("ID:"+str(key)+" | Device:"+str(devices[key]))
+conn.solidColor(red)
+device = input("Chose device:")
+conn.setLedsByDevice(int(device),green)
+input("Pause...")
+del conn
 """
