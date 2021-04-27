@@ -19,6 +19,25 @@ class icueConnect:
                 self.ll120s = device_index
         return leds
 
+    #returns a dictionary. key=channelDevice.type & value=list of leds in channelDevices in channel
+    #example output: ledsChannelsDict = {"LL_Fan": [16, 16, 16, 16], "HD_Fan": [12]}
+    def getChannelsToDevicesMap(self, device):
+        devInfo = sdk.get_device_info(device)
+        devLeds = devInfo.led_count
+        channelDevices = {}
+        for channel in devInfo.channels:
+            cDevices = []
+            devName = ""
+            for cDevice in channel.devices:
+                cDevices.append(cDevice.led_count)
+                devName = str(cDevice.type)
+                devName = devName.replace("CorsairChannelDeviceType.","")
+            channelDevices[devName] = cDevices
+        return channelDevices
+
+    def getDeviceInfo(self,device):
+        return sdk.get_device_info(device)
+
     def getDevicesIdByName(self):
         deviceMap = {}
         devices = sdk.get_devices()
@@ -84,17 +103,22 @@ class icueConnect:
         deviceIdToName = self.getDevicesIdByName()
         if not all_leds:
             return      
-
-#example call
-conn = icueConnect()
-red = [255,0,0]
-green = [0,255,0]
-devices = conn.getDeviceNames()
-#print id to device mapping
-for key in range(len(devices)):
-    print("ID:"+str(key)+" | Device:"+str(devices[key]))
-conn.solidColor(red)
-device = input("Choose device:")
-conn.setLedsByDevice(int(device),green)
-input("Pause...")
-del conn
+#
+##example call##
+#conn = icueConnect()
+#red = [255,0,0]
+#green = [0,255,0]
+#blue = [0,0,255]
+#devices = conn.getDeviceNames()
+##print id to device mapping
+#for key in range(len(devices)):
+#    print("ID:"+str(key)+" | Device:"+str(devices[key]))
+#conn.solidColor(red)
+#device = input("Choose device:")
+#conn.setLedsByDevice(int(device),green)
+#ledsChannelsDict = conn.getChannelsToDevicesMap(int(device))
+#for key, value in ledsChannelsDict.items():
+#    print(key, value)
+#input("Pause...")
+#del conn
+#
