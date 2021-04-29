@@ -15,8 +15,6 @@ class icueConnect:
             #print(dev.__dict__['model'])
             #print(type(dev.__dict__['model']))
             #pprint(getmembers(dev))
-            if dev.__dict__['model'] == 'Lighting Node Pro' and dev.__dict__['led_count'] == 76:
-                self.ll120s = device_index
         return leds
 
     #returns a dictionary. key=channelDevice.type & value=list of leds in channelDevices in channel
@@ -34,6 +32,29 @@ class icueConnect:
                 devName = devName.replace("CorsairChannelDeviceType.","")
             channelDevices[devName] = cDevices
         return channelDevices
+
+    def setDeviceChannelLeds(self, device, channelChoice, RGB_val):
+        devInfo = sdk.get_device_info(device)
+        channelLeds = {}
+        for channel in devInfo.channels:
+            devName = ""
+            ledCount = 0
+            for cDevice in channel.devices:
+                devName = str(cDevice.type).replace("CorsairChannelDeviceType.","")
+                ledCount = ledCount + cDevice.led_count
+            channelLeds[devName] = ledCount
+        if len(devInfo.channels) > 1:
+            cIndex = list(channelLeds.keys()).index(channelChoice)+1
+            cIndex = "C"+str(cIndex)
+            for led in deviceToLed[device]:
+                if cIndex in str(led):
+                    deviceToLed[device][led] = (RGB_val[0],RGB_val[1],RGB_val[2])
+        else:
+            for led in deviceToLed[device]:
+                deviceToLed[device][led] = (RGB_val[0],RGB_val[1],RGB_val[2])
+        sdk.set_led_colors_buffer_by_device_index(device, deviceToLed[device])
+        sdk.set_led_colors_flush_buffer()
+
 
     def getDeviceInfo(self,device):
         return sdk.get_device_info(device)
@@ -103,6 +124,7 @@ class icueConnect:
         deviceIdToName = self.getDevicesIdByName()
         if not all_leds:
             return      
+
 #
 ##example call##
 #conn = icueConnect()
@@ -110,15 +132,23 @@ class icueConnect:
 #green = [0,255,0]
 #blue = [0,0,255]
 #devices = conn.getDeviceNames()
+#
+#
 ##print id to device mapping
 #for key in range(len(devices)):
 #    print("ID:"+str(key)+" | Device:"+str(devices[key]))
 #conn.solidColor(red)
-#device = input("Choose device:")
+#
+#
+#device = input("Choose device By ID:")
 #conn.setLedsByDevice(int(device),green)
+#
+#
 #ledsChannelsDict = conn.getChannelsToDevicesMap(int(device))
 #for key, value in ledsChannelsDict.items():
 #    print(key, value)
-#input("Pause...")
+#channel = input("Enter Channel Name:")
+#conn.setDeviceChannelLeds(int(device), channel, blue)
+#input("Pause..")
 #del conn
 #
