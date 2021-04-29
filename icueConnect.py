@@ -1,6 +1,4 @@
 import cuesdk
-#from pprint import pprint
-#from inspect import getmembers
 import time
 
 class icueConnect:
@@ -12,14 +10,11 @@ class icueConnect:
             leds.append(led_positions)
             deviceToLed[device_index] = led_positions
             dev = sdk.get_device_info(device_index)
-            #print(dev.__dict__['model'])
-            #print(type(dev.__dict__['model']))
-            #pprint(getmembers(dev))
         return leds
 
     #returns a dictionary. key=channelDevice.type & value=list of leds in channelDevices in channel
-    #example output: ledsChannelsDict = {"LL_Fan": [16, 16, 16, 16], "HD_Fan": [12]}
-    def getChannelsToDevicesMap(self, device):
+    #example output: subDevices = {"LL_Fan": [16, 16, 16, 16], "HD_Fan": [12]}
+    def getSubDevices(self, device):
         devInfo = sdk.get_device_info(device)
         devLeds = devInfo.led_count
         channelDevices = {}
@@ -33,7 +28,7 @@ class icueConnect:
             channelDevices[devName] = cDevices
         return channelDevices
 
-    def setDeviceChannelLeds(self, device, channelChoice, RGB_val):
+    def setSubDeviceLeds(self, device, subDevice, RGB_val):
         devInfo = sdk.get_device_info(device)
         channelLeds = {}
         for channel in devInfo.channels:
@@ -44,7 +39,7 @@ class icueConnect:
                 ledCount = ledCount + cDevice.led_count
             channelLeds[devName] = ledCount
         if len(devInfo.channels) > 1:
-            cIndex = list(channelLeds.keys()).index(channelChoice)+1
+            cIndex = list(channelLeds.keys()).index(subDevice)+1
             cIndex = "C"+str(cIndex)
             for led in deviceToLed[device]:
                 if cIndex in str(led):
@@ -55,19 +50,15 @@ class icueConnect:
         sdk.set_led_colors_buffer_by_device_index(device, deviceToLed[device])
         sdk.set_led_colors_flush_buffer()
 
-
     def getDeviceInfo(self,device):
         return sdk.get_device_info(device)
 
-    def getDevicesIdByName(self):
+    def getDevicesIdMap(self):
         deviceMap = {}
         devices = sdk.get_devices()
         for device in range(len(devices)):
             deviceMap[device] = devices[device]
         return deviceMap
-
-    def getDeviceNames(self):
-        return deviceIdToName
 
     def setLedsByDevice(self, device,RGB_val):
         for led in deviceToLed[device]:
@@ -111,9 +102,9 @@ class icueConnect:
         global sdk
         global all_leds
         global deviceToLed
-        global deviceIdToName
+        global devicesIdMap
         deviceToLed = {}
-        deviceIdToName = {}
+        devicesIdMap = {}
         sdk = cuesdk.CueSdk()
         connected = sdk.connect()
         if not connected:
@@ -121,34 +112,33 @@ class icueConnect:
             print("Handshake failed: %s" % err)
             return
         all_leds = self.get_available_leds()
-        deviceIdToName = self.getDevicesIdByName()
+        devicesIdMap = self.getDevicesIdMap()
         if not all_leds:
             return      
 
-#
-##example call##
-#conn = icueConnect()
-#red = [255,0,0]
-#green = [0,255,0]
-#blue = [0,0,255]
-#devices = conn.getDeviceNames()
-#
-#
-##print id to device mapping
-#for key in range(len(devices)):
-#    print("ID:"+str(key)+" | Device:"+str(devices[key]))
-#conn.solidColor(red)
-#
-#
-#device = input("Choose device By ID:")
-#conn.setLedsByDevice(int(device),green)
-#
-#
-#ledsChannelsDict = conn.getChannelsToDevicesMap(int(device))
-#for key, value in ledsChannelsDict.items():
-#    print(key, value)
-#channel = input("Enter Channel Name:")
-#conn.setDeviceChannelLeds(int(device), channel, blue)
-#input("Pause..")
-#del conn
-#
+
+#example call##
+conn = icueConnect()
+red = [255,0,0]
+green = [0,255,0]
+blue = [0,0,255]
+devices = conn.getDevicesIdMap()
+
+
+#print id to device mapping
+for key in range(len(devices)):
+    print("ID:"+str(key)+" | Device:"+str(devices[key]))
+conn.solidColor(red)
+
+
+device = input("Choose device By ID:")
+conn.setLedsByDevice(int(device),green)
+
+
+subDevices = conn.getSubDevices(int(device))
+for subDevice, ledCount in subDevices.items():
+    print(subDevice+" |", ledCount)
+subDevice = input("Enter subDevice Name:")
+conn.setSubDeviceLeds(int(device), subDevice, blue)
+input("Press Any Key To Exit..")
+del conn
