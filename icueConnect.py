@@ -16,16 +16,14 @@ class icueConnect:
     #example output: subDevices = {"LL_Fan": [16, 16, 16, 16], "HD_Fan": [12]}
     def getSubDevices(self, device):
         devInfo = sdk.get_device_info(device)
-        devLeds = devInfo.led_count
         channelDevices = {}
         for channel in devInfo.channels:
             cDevices = []
             devName = ""
             for cDevice in channel.devices:
                 cDevices.append(cDevice.led_count)
-                devName = str(cDevice.type)
-                devName = devName.replace("CorsairChannelDeviceType.","")
-            channelDevices[devName] = cDevices
+                devName = str(cDevice.type).replace("CorsairChannelDeviceType.","") + " " + str(channel.devices.index(cDevice))
+                channelDevices[devName] = cDevices
         return channelDevices
 
     def setSubDeviceLeds(self, device, subDevice, RGB_val):
@@ -35,9 +33,9 @@ class icueConnect:
             devName = ""
             ledCount = 0
             for cDevice in channel.devices:
-                devName = str(cDevice.type).replace("CorsairChannelDeviceType.","")
+                devName = str(cDevice.type).replace("CorsairChannelDeviceType.","") + " " + str(channel.devices.index(cDevice))
                 ledCount = ledCount + cDevice.led_count
-            channelLeds[devName] = ledCount
+                channelLeds[devName] = ledCount
         if len(devInfo.channels) > 1:
             cIndex = list(channelLeds.keys()).index(subDevice)+1
             cIndex = "C"+str(cIndex)
