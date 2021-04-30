@@ -125,28 +125,28 @@ class icueConnect:
             return      
 
 
-#example call##
-conn = icueConnect()
-red = [255,0,0]
-green = [0,255,0]
-blue = [0,0,255]
-devices = conn.getDevicesIdMap()
-
-
-#print id to device mapping
-for key in range(len(devices)):
-    print("ID:"+str(key)+" | Device:"+str(devices[key]))
-conn.solidColor(red)
-
-
-device = input("Choose device By ID:")
-conn.setLedsByDevice(int(device),green)
-
-
-subDevices = conn.getSubDevices(int(device))
-for subDevice, ledCount in subDevices.items():
-    print(subDevice+" |", ledCount)
-subDevice = input("Enter subDevice Name:")
-conn.setSubDeviceLeds(int(device), subDevice, blue)
-input("Press Any Key To Exit..")
-del conn
+##example call##
+#conn = icueConnect()
+#red = [255,0,0]
+#green = [0,255,0]
+#blue = [0,0,255]
+#devices = conn.getDevicesIdMap()
+#
+#
+##print id to device mapping
+#for key in range(len(devices)):
+#    print("ID:"+str(key)+" | Device:"+str(devices[key]))
+#conn.solidColor(red)
+#
+#
+#device = input("Choose device By ID:")
+#conn.setLedsByDevice(int(device),green)
+#
+#
+#subDevices = conn.getSubDevices(int(device))
+#for subDevice, ledCount in subDevices.items():
+#    print(subDevice+" |", ledCount)
+#subDevice = input("Enter subDevice Name:")
+#conn.setSubDeviceLeds(int(device), subDevice, blue)
+#input("Press Any Key To Exit..")
+#del conn
