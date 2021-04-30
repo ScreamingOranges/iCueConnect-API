@@ -18,11 +18,16 @@ class icueConnect:
         devInfo = sdk.get_device_info(device)
         channelDevices = {}
         for channel in devInfo.channels:
+            print("Test")
             cDevices = []
             devName = ""
             for cDevice in channel.devices:
                 cDevices.append(cDevice.led_count)
-                devName = str(cDevice.type).replace("CorsairChannelDeviceType.","") + " " + str(channel.devices.index(cDevice))
+                devName = str(cDevice.type).replace("CorsairChannelDeviceType.","")
+            if devName in channelDevices.keys():
+                devName = devName + "2"
+                channelDevices[devName] = cDevices
+            else:
                 channelDevices[devName] = cDevices
         return channelDevices
 
@@ -33,9 +38,14 @@ class icueConnect:
             devName = ""
             ledCount = 0
             for cDevice in channel.devices:
-                devName = str(cDevice.type).replace("CorsairChannelDeviceType.","") + " " + str(channel.devices.index(cDevice))
+                devName = str(cDevice.type).replace("CorsairChannelDeviceType.","")
                 ledCount = ledCount + cDevice.led_count
+            if devName in channelLeds.keys():
+                devName = devName + "2"
                 channelLeds[devName] = ledCount
+            else:
+                channelLeds[devName] = ledCount
+
         if len(devInfo.channels) > 1:
             cIndex = list(channelLeds.keys()).index(subDevice)+1
             cIndex = "C"+str(cIndex)
