@@ -84,7 +84,7 @@ These functionalities can be accessed by right clicking on the system tray icon 
 * 1.0
     * Initial Release
 
-# For The Developers
+# For Developers
 ## Language of Choice
 iCueConnect is a Python based application that utilizes the following:
 * Python 3.8.5
