@@ -1,6 +1,8 @@
 # iCueConnect-API 
 ## Description
-This simple program serves as an API for controlling Corsair iCue device leds through the [iCueConnect-Android App](https://github.com/ScreamingOranges/iCueConnect-Android).  
+This simple program serves as an API for controlling Corsair iCue device leds through the [iCueConnect-Android App]().  <br/>
+**THIS README APPLIES FOR THE iCueConnect-API....**<br>
+**FOR DOCUMENTATION REGARDING iCueConnect-Android APP, CLICK THE PRIOR LINK**
 >Note: This is an early development release. Some things may not work perfectly, and you may experience some bugs/glitches. Please feel free to inform me of any issues you are having.
 
 ## Requirements
@@ -52,7 +54,20 @@ iCueConnect uses Pusher for realtime communication between iCueConnect-Android A
     > Note: If you enter an incorrect key, simply go into the iCueConnect folder that we created earlier, delete the **data.json** file, and run the iCueConnect.exe again. 
 5. Click "OK" and iCueConnect.exe will run in the background.
     > Note: The application can be accessed from the windows system tray.
-6. At this point, your PC is set up and ready to go. If you haven't already done so, download and setup [iCueConnect-Android](https://github.com/ScreamingOranges/iCueConnect-Android) App.
+6. At this point, your PC is set up and ready to go. If you haven't already done so, download and setup [iCueConnect-Android]() App.
+
+## How To Use
+As mentioned prior, this application is not complex. Its functionalities primarily exist under the hood.<br/>
+There are only 2 functionalities accessible from windows (excluding starting the application).<br/>
+These functionalities can be accessed by right clicking on the system tray icon as such.<br/>
+<img src=".\readmeImages\gui.png" width="200px">
+
+1. Revert Control
+    * This reverts led control back to iCue. 
+    * For example, if you set the Leds to a color from iCueConnect-Android App, then they will stay that color unless you click **Revert Control**.
+        > Note: The iCueConnect-Android App also has this same functionality, but it is the <img src="https://www.iconsdb.com/icons/preview/white/refresh-2-xxl.png" width="20px"> icon.
+2. Quit
+    * This closes the application.
 
 ## Help
 * Leds not updating according to your phones selection? Follow these trouble shooting steps.
@@ -84,7 +99,8 @@ iCueConnect is a Python based application that utilizes the following:
 >Note: There is a bug with the Pysher library that is caused due to changes in the websocket-client library. To get around this I strictly had to use the listed version for websocket-client, Pysher and six.
 
 ## Using PyInstaller
-I am new to PyInstaller, so I generated the exe with the following rather then through a spec file.
+I am new to PyInstaller, so I generated the exe with the following rather then through a spec file.<br/>
+For cuesdk, I had to manually add the cuesdk containing the *CUESDK.x64_2017.dll* and *CUESDK_2017.dll* files.
 ```
 pyinstaller main.py --clean --win-private-assemblies -n iCueConnect --log-level=DEBUG -w -F -p "C:\Users\danie\AppData\Local\Programs\Python\Python38\Lib\site-packages" --add-data "C:\Users\danie\AppData\Local\Programs\Python\Python38\Lib\site-packages\cuesdk;cuesdk" --add-data "E:\PersonalProjects\iCUE Connect\iCuePyPhoneSERVER\icon.png;iCuePyPhoneSERVER" --icon="E:\PersonalProjects\iCUE Connect\iCuePyPhoneSERVER\icon.ico" 
 ```
