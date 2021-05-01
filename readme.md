@@ -96,11 +96,5 @@ iCueConnect is a Python based application that utilizes the following:
 * [Pysher: 1.0.3](https://github.com/deepbrook/Pysher)
 * [six: 1.15.0](https://github.com/benjaminp/six)
 * [PyInstaller: 5.0.dev0](http://www.pyinstaller.org/)
+    * This is what I used to develop the .exe file.
 >Note: There is a bug with the Pysher library that is caused due to changes in the websocket-client library. To get around this I strictly had to use the listed version for websocket-client, Pysher and six.
-
-## Using PyInstaller
-I am new to PyInstaller, so I generated the exe with the following rather then through a spec file.<br/>
-For cuesdk, I had to manually add the cuesdk containing the *CUESDK.x64_2017.dll* and *CUESDK_2017.dll* files.
-```
-pyinstaller main.py --clean --win-private-assemblies -n iCueConnect --log-level=DEBUG -w -F -p "C:\Users\danie\AppData\Local\Programs\Python\Python38\Lib\site-packages" --add-data "C:\Users\danie\AppData\Local\Programs\Python\Python38\Lib\site-packages\cuesdk;cuesdk" --add-data "E:\PersonalProjects\iCUE Connect\iCuePyPhoneSERVER\icon.png;iCuePyPhoneSERVER" --icon="E:\PersonalProjects\iCUE Connect\iCuePyPhoneSERVER\icon.ico" 
-```

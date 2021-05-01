@@ -4,3 +4,4 @@ dist/**
 *.exe
 *.spec
 *.json
+commandHelp.txt
