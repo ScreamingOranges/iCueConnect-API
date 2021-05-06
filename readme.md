@@ -25,7 +25,7 @@ This simple program serves as an API for controlling Corsair iCue device leds th
 5. Place the shortcut on your Desktop or where ever is convenient for you.
 
 ### Setting Up Pusher
-iCueConnect uses Pusher for realtime communication between iCueConnect-Android App and iCueConnect-API using websockets. You do not have to know exactly what Pusher is and how it works. You just need to make an account in order for this iCueConnect to work.
+iCueConnect uses Pusher for realtime communication between iCueConnect-Android App and iCueConnect-API using websockets. You do not have to know exactly what Pusher is and how it works. You just need to make an account in order for this iCueConnect to work. If you have not done so already preform the following to create a Pusher account.
 1. Create a free Pusher account [here](https://dashboard.pusher.com/accounts/sign_up).
 2. When asked to get started between Channels or Breams, choose **CHANNELS**.
 3. When given the following input fields, enter the associated values and then press the "Create app" button.
@@ -50,7 +50,7 @@ iCueConnect uses Pusher for realtime communication between iCueConnect-Android A
 
 3. Click **More info**, then click **Run anyway**. 
     > Note: Your antivirus may not recognize this application and delete it thinking it is a threat. In this case you will need to whitelist the application.
-4. Since this is the first time the application is being run, it will prompt you for your Pusher Key. Enter the key without the quotation marks.
+4. Since this is the first time the application is being run, it will prompt you for your Pusher Key. Enter the key **without the quotation marks**.
     > Note: If you enter an incorrect key, simply go into the iCueConnect folder that we created earlier, delete the **data.json** file, and run the iCueConnect.exe again. 
 5. Click "OK" and iCueConnect.exe will run in the background.
     > Note: The application can be accessed from the windows system tray.
