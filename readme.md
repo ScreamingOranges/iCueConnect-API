@@ -3,10 +3,10 @@
 This simple program serves as an API for controlling Corsair iCue device leds through the [iCueConnect-Android App]().  <br/>
 **THIS README APPLIES FOR THE iCueConnect-API....**<br>
 **FOR DOCUMENTATION REGARDING iCueConnect-Android APP, CLICK THE PRIOR LINK**
->Note: This is an early development release. Some things may not work perfectly, and you may experience some bugs/glitches. Please feel free to inform me of any issues you are having.
+>Note: This is an early development release. Some things may not work perfectly, and you may experience some bugs/glitches. Please feel free to inform me of any issues you are having via the issues tab.
 
 ## Requirements
-* You will need iCue installed running on your windows machine.
+* You will need iCue installed and running on your windows machine.
 * You will need to download the iCueConnect-Android App.
 * You will have to have configured all your Corsair devices through iCue.
 * In order for iCueConnect-Android App to communicate with [iCueConnect-API]() and set the leds accordingly, both devices must be connected to the internet.
