@@ -25,7 +25,7 @@ This simple program serves as an API for controlling Corsair iCue device leds th
 5. Place the shortcut on your Desktop or where ever is convenient for you.
 
 ### Setting Up Pusher
-iCueConnect uses Pusher for realtime communication between iCueConnect-Android App and iCueConnect-API using websockets. You do not have to know exactly what Pusher is and how it works. You just need to make an account in order for this iCueConnect to work. If you have not done so already preform the following to create a Pusher account.
+iCueConnect uses Pusher for realtime communication between iCueConnect-Android App and iCueConnect-API using sockets. You do not have to know exactly what Pusher is and how it works. You just need to make an account in order for this iCueConnect to work. If you have not done so already preform the following to create a Pusher account.
 1. Create a free Pusher account [here](https://dashboard.pusher.com/accounts/sign_up).
 2. When asked to get started between Channels or Breams, choose **CHANNELS**.
 3. When given the following input fields, enter the associated values and then press the "Create app" button.
@@ -79,7 +79,10 @@ These functionalities can be accessed by right clicking on the system tray icon 
 * Leds are extremely delayed?
     * Leds on occasion can become delayed, however if there is a continues long delay then try setting iCueConnect's priority to realtime or high. Don't know how to do this? Check this [tutorial](https://winaero.com/change-process-priority-windows-10/) out then!
         > Note: iCueConnect will appear in the Details tab twice in the Task Manager. Set both accordingly. 
-
+* Are notification LEDs not working properly?
+  * Make sure you allowed the option **Notification Leds** in the android app's settings page.
+  * If the setting is enabled, then you will need to make sure that battery optimization is disabled for the android app.
+  
 ## Version History
 * 1.0
     * Initial Release
