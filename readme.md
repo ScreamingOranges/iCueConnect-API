@@ -1,6 +1,6 @@
 # iCueConnect-API 
 ## Description
-This simple program serves as an API for controlling Corsair iCue device leds through the [iCueConnect-Android App]().  <br/>
+This simple program serves as an API for controlling Corsair iCue device leds through the [iCueConnect-Android App](https://github.com/ScreamingOranges/iCueConnect-Android).  <br/>
 **THIS README APPLIES FOR THE iCueConnect-API....**<br>
 **FOR DOCUMENTATION REGARDING iCueConnect-Android APP, CLICK THE PRIOR LINK**
 >Note: This is an early development release. Some things may not work perfectly, and you may experience some bugs/glitches. Please feel free to inform me of any issues you are having via the issues tab.
@@ -9,7 +9,7 @@ This simple program serves as an API for controlling Corsair iCue device leds th
 * You will need iCue installed and running on your windows machine.
 * You will need to download the iCueConnect-Android App.
 * You will have to have configured all your Corsair devices through iCue.
-* In order for iCueConnect-Android App to communicate with [iCueConnect-API]() and set the leds accordingly, both devices must be connected to the internet.
+* In order for iCueConnect-Android App to communicate with [iCueConnect-API](https://github.com/ScreamingOranges/iCueConnect-API) and set the leds accordingly, both devices must be connected to the internet.
 * Lastly you will have to check the **Enable SDK** option in iCue's Settings.
 <p align="center">
   <img src="https://help.corsair.com/hc/article_attachments/360072361252/iCUE_SDK_enabled.jpg" width="800px">
@@ -18,7 +18,7 @@ This simple program serves as an API for controlling Corsair iCue device leds th
 ## Installation Instructions & Configuration
 
 ### Configuring The API
-1. Download the iCueConnect-API.exe [here](). 
+1. Download the iCueConnect-API.exe [here](https://github.com/ScreamingOranges/iCueConnect-API/releases). 
 2. Create a folder named iCueConnect-API and place the iCueConnect.exe inside of it. 
 3. Move this newly created folder into your **C:\Users\YourUserNameHere\AppData\Roaming**.
 4. Right click on the iCueConnect.exe, create a new shortcut.
@@ -54,7 +54,7 @@ iCueConnect uses Pusher for realtime communication between iCueConnect-Android A
     > Note: If you enter an incorrect key, simply go into the iCueConnect folder that we created earlier, delete the **data.json** file, and run the iCueConnect.exe again. 
 5. Click "OK" and iCueConnect.exe will run in the background.
     > Note: The application can be accessed from the windows system tray.
-6. At this point, your PC is set up and ready to go. If you haven't already done so, download and setup [iCueConnect-Android]() App.
+6. At this point, your PC is set up and ready to go. If you haven't already done so, download and setup [iCueConnect-Android](https://github.com/ScreamingOranges/iCueConnect-Android) App.
 
 ## How To Use
 As mentioned prior, this application is not complex. Its functionalities primarily exist under the hood.<br/>
