@@ -18,7 +18,6 @@ class icueConnect:
         devInfo = sdk.get_device_info(device)
         channelDevices = {}
         for channel in devInfo.channels:
-            print("Test")
             cDevices = []
             devName = ""
             for cDevice in channel.devices:
