@@ -1,6 +1,7 @@
 # iCueConnect-API 
 ## Description
 This simple program serves as an API for controlling Corsair iCue device leds through the [iCueConnect-Android App](https://github.com/ScreamingOranges/iCueConnect-Android).  <br/>
+**[Video Example In Use](https://imgur.com/a/CzNtWbY)<br/>**
 **THIS README APPLIES FOR THE iCueConnect-API....**<br>
 **FOR DOCUMENTATION REGARDING iCueConnect-Android APP, CLICK THE PRIOR LINK**
 >Note: This is an early development release. Some things may not work perfectly, and you may experience some bugs/glitches. Please feel free to inform me of any issues you are having via the issues tab.
