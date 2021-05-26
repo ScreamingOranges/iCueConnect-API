@@ -19,10 +19,14 @@ def startDaemonThread():
 
 def checkJsonFile():
     if not os.path.exists("./data.json"):
-        pusherKey = inputGUI.inputGUI().getText()
-        data = {"pusherKey":pusherKey}
-        with open('data.json', 'w') as outfile:
-            json.dump(data, outfile)
+        global pusherCreds 
+        ex = inputGUI.inputGUI()
+        ex.show()
+        if ex.exec_() == inputGUI.inputGUI.Accepted:
+            pusherCreds = ex.pCred
+            data = {"pusherAppID":pusherCreds[0],"pusherKey":pusherCreds[1],"pusherSecret":pusherCreds[2],"pusherCluster":pusherCreds[3]}
+            with open('data.json', 'w') as outfile:
+                json.dump(data, outfile)
             
 def colorResetCall():
     conn = icueConnect.icueConnect()
@@ -31,7 +35,6 @@ def colorResetCall():
 
 def main():
     app = PyQt5.QtWidgets.QApplication(sys.argv)
-    app.setQuitOnLastWindowClosed(True)
     checkJsonFile()
     startDaemonThread()
     # Adding an icon

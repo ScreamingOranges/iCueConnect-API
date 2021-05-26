@@ -5,3 +5,4 @@ dist/**
 *.spec
 *.json
 commandHelp.txt
+todo.txt
