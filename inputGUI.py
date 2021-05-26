@@ -34,6 +34,7 @@ class inputGUI(PyQt5.QtWidgets.QDialog):
         self.setLayout(layout)
         self.setFixedWidth(250)
         self.setWindowTitle("iCueConnect")
+        self.setWindowIcon(PyQt5.QtGui.QIcon(":icon.png"))
 
     def getAppID(self):
         app_id, ok = PyQt5.QtWidgets.QInputDialog.getText(self, "iCueConnect", "Enter Pusher app_id:")
