@@ -73,8 +73,11 @@ class icueConnect:
         sdk.set_led_colors_buffer_by_device_index(device, deviceToLed[device])
         sdk.set_led_colors_flush_buffer()
 
-    def setPriority(self,value):
-        sdk.set_layer_priority(value)
+    def requestControl(self):
+        sdk.request_control()
+
+    def releaseControl(self):
+        sdk.release_control()
 
     def perform_pulse_effect(self,wave_duration,RGB_val):
         time_per_frame = 25

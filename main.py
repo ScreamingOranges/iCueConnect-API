@@ -30,7 +30,7 @@ def checkJsonFile():
             
 def colorResetCall():
     conn = icueConnect.icueConnect()
-    conn.setPriority(0)
+    conn.releaseControl()
     del conn
 
 def main():
