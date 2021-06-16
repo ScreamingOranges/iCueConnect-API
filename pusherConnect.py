@@ -1,8 +1,9 @@
 import sys
 import time
 import pysher
-#import logging
-import json 
+import logging
+import json
+import jsonpickle
 import os 
 import PyQt5
 import PyQt5.QtWidgets
@@ -18,10 +19,10 @@ class pusherConnect:
                 pusherSecret = json_object["pusherSecret"]
                 pusherCluster = json_object["pusherCluster"]
         #start a logging handler so we can see the raw communication data
-        #root = logging.getLogger()
-        #root.setLevel(logging.INFO)
-        #ch = logging.StreamHandler(sys.stdout)
-        #root.addHandler(ch)
+        root = logging.getLogger()
+        root.setLevel(logging.INFO)
+        ch = logging.StreamHandler(sys.stdout)
+        root.addHandler(ch)
         #end logging
         global pusher_client
         global pusher_server
@@ -34,7 +35,7 @@ class pusherConnect:
             time.sleep(1)
 
     def  my_func(self, *args, **kwargs):
-        #print("processing Args:", args)
+        print("processing Args:", args)
         #print("processing Kwargs:", kwargs)
         result = args[0]
         #print(result)
@@ -48,14 +49,17 @@ class pusherConnect:
         elif "RGB_SOLID" in result:
             conn.requestControl()
             RGB_val = result["RGB_SOLID"]
-            conn.solidColor(RGB_val)
+            RGB_DEVICE = result["RGB_DEVICE"][0]
+            if RGB_DEVICE == 0:
+                conn.solidColor(RGB_val)
+            else:
+                conn.setLedsByDevice((RGB_DEVICE-1), RGB_val)
         elif "RGB_RESET" in result:
             conn.releaseControl()
         elif "Request_SubDevices" in result:
-            print('Received From App')
             devices = conn.getDevicesIdMap()
-            devices = str(devices)
-            devices.encode()
+            devices = jsonpickle.encode(devices, unpicklable=False)
+            print(devices)
             pusher_client.trigger(u'api_Callback', u'api_event', devices)
         del conn
 

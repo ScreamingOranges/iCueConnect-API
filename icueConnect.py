@@ -64,7 +64,7 @@ class icueConnect:
         deviceMap = {}
         devices = sdk.get_devices()
         for device in range(len(devices)):
-            deviceMap[device] = devices[device]
+            deviceMap[device] = devices[device].model
         return deviceMap
 
     def setLedsByDevice(self, device,RGB_val):
