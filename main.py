@@ -33,6 +33,13 @@ def colorResetCall():
     conn.releaseControl()
     del conn
 
+def iCueSDK_TestCall():
+    conn = icueConnect.icueConnect()
+    conn.requestControl()
+    conn.perform_pulse_effect(500, [255, 255, 255])
+    conn.releaseControl()
+    del conn
+
 def main():
     app = PyQt5.QtWidgets.QApplication(sys.argv)
     checkJsonFile()
@@ -48,6 +55,10 @@ def main():
     colorReset = PyQt5.QtWidgets.QAction("Revert Control")
     colorReset.triggered.connect(colorResetCall)
     menu.addAction(colorReset)
+    # To test iCue SDK 
+    iCueSDK_Test = PyQt5.QtWidgets.QAction("Test SDK")
+    iCueSDK_Test.triggered.connect(iCueSDK_TestCall)
+    menu.addAction(iCueSDK_Test)
     # To quit the app
     quit = PyQt5.QtWidgets.QAction("Quit")
     quit.triggered.connect(app.quit)
