@@ -108,6 +108,16 @@ class icueConnect:
             sdk.set_led_colors_buffer_by_device_index(di, device_leds)
         sdk.set_led_colors_flush_buffer()
 
+    def delayedSolidColor(self, interval,RGB_val):
+        cnt = len(all_leds)
+        for di in range(cnt):
+            device_leds = all_leds[di]
+            for led in device_leds:
+                device_leds[led] = (RGB_val[0],RGB_val[1],RGB_val[2])
+                time.sleep(interval)
+                sdk.set_led_colors_buffer_by_device_index(di, device_leds)
+                sdk.set_led_colors_flush_buffer()
+
     def __init__(self):
         global sdk
         global all_leds

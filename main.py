@@ -9,6 +9,8 @@ import pusherConnect
 import inputGUI
 import icueConnect
 import tray_rc
+import pusher
+import jsonpickle
 
 
 
@@ -34,9 +36,22 @@ def colorResetCall():
     del conn
 
 def iCueSDK_TestCall():
+    if os.path.exists("./data.json"):
+        with open('data.json', 'r') as openfile:
+            json_object = json.load(openfile)
+            pusherID = json_object["pusherAppID"]
+            pusherKey = json_object["pusherKey"]
+            pusherSecret = json_object["pusherSecret"]
+            pusherCluster = json_object["pusherCluster"]
+    pusher_client = pusher.Pusher(app_id=pusherID, key=pusherKey, secret=pusherSecret, cluster=pusherCluster)
+    pusher_client.trigger(u'api_Callback', u'test_event', jsonpickle.encode("The iCue Connect API Is Communicating Properly With Your Device!"))
     conn = icueConnect.icueConnect()
     conn.requestControl()
-    conn.perform_pulse_effect(500, [255, 255, 255])
+    conn.perform_pulse_effect(300, [255, 255, 255])
+    conn.solidColor([0, 0, 0])
+    conn.delayedSolidColor(.01, [255, 0, 0])
+    conn.perform_pulse_effect(300, [255, 255, 255])
+    conn.solidColor([0, 0, 0])
     conn.releaseControl()
     del conn
 
@@ -56,7 +71,7 @@ def main():
     colorReset.triggered.connect(colorResetCall)
     menu.addAction(colorReset)
     # To test iCue SDK 
-    iCueSDK_Test = PyQt5.QtWidgets.QAction("Test SDK")
+    iCueSDK_Test = PyQt5.QtWidgets.QAction("Test")
     iCueSDK_Test.triggered.connect(iCueSDK_TestCall)
     menu.addAction(iCueSDK_Test)
     # To quit the app

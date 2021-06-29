@@ -9,6 +9,8 @@ import PyQt5
 import PyQt5.QtWidgets
 import icueConnect
 import pusher
+
+
 class pusherConnect:
     def __init__(self):
         if os.path.exists("./data.json"):
