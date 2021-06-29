@@ -9,9 +9,9 @@ This simple program serves as an API for controlling Corsair iCue device leds th
 ## Requirements
 * You will need iCue installed and running on your windows machine.
 * You will need to download the iCueConnect-Android App.
-* You will have to have configured all your Corsair devices through iCue.
+* You will have to have configured all your Corsair devices through iCUE.
 * In order for iCueConnect-Android App to communicate with [iCueConnect-API](https://github.com/ScreamingOranges/iCueConnect-API) and set the leds accordingly, both devices must be connected to the internet.
-* Lastly you will have to check the **Enable SDK** option in iCue's Settings.
+* Lastly you will have to check the **Enable SDK** option in iCUE's Settings.
 <p align="center">
   <img src="https://help.corsair.com/hc/article_attachments/360072361252/iCUE_SDK_enabled.jpg" width="800px">
 </p>
@@ -19,7 +19,7 @@ This simple program serves as an API for controlling Corsair iCue device leds th
 ## Installation Instructions & Configuration
 
 ### Configuring The API
-1. Download the iCueConnect-API.exe [here](https://github.com/ScreamingOranges/iCueConnect-API/releases). 
+1. Download the iCueConnect-API [here](https://github.com/ScreamingOranges/iCueConnect-API/releases). 
 2. Create a folder named iCueConnect-API and place the iCueConnect.exe inside of it. 
 3. Move this newly created folder into your **C:\Users\YourUserNameHere\AppData\Roaming**.
 4. Right click on the iCueConnect.exe, create a new shortcut.
@@ -42,7 +42,7 @@ iCueConnect uses Pusher for realtime communication between iCueConnect-Android A
 5. Save these values. We will need them later.
 
 ### Executing iCueConnect.exe (iCueConnect-API)
-1. First make sure that iCue is running in the background. 
+1. First make sure that iCUE is running in the background. 
     > Note: You can check if it is in the windows system tray.
 2. The first time you run iCueConnect.exe, windows may notify you with the image below. 
 <p align="center">
@@ -51,29 +51,35 @@ iCueConnect uses Pusher for realtime communication between iCueConnect-Android A
 
 3. Click **More info**, then click **Run anyway**. 
     > Note: Your antivirus may not recognize this application and delete it thinking it is a threat. In this case you will need to whitelist the application.
-4. Since this is the first time the application is being run, it will prompt you for your Pusher Key. Enter the key **without the quotation marks**.
-    > Note: If you enter an incorrect key, simply go into the iCueConnect folder that we created earlier, delete the **data.json** file, and run the iCueConnect.exe again. 
+4. Since this is the first time the application is being run, it will prompt you for your Pusher information. Enter the information **WITHOUT THE QUOTATION MARKS**.
+    > Note: If you enter any of the values incorrectly, simply go into the iCueConnect folder that we created earlier, delete the **data.json** file, and run the iCueConnect.exe again. 
 5. Click "OK" and iCueConnect.exe will run in the background.
     > Note: The application can be accessed from the windows system tray.
 6. At this point, your PC is set up and ready to go. If you haven't already done so, download and setup [iCueConnect-Android](https://github.com/ScreamingOranges/iCueConnect-Android) App.
 
 ## How To Use
-As mentioned prior, this application is not complex. Its functionalities primarily exist under the hood.<br/>
-There are only 2 functionalities accessible from windows (excluding starting the application).<br/>
+As mentioned prior, this application is not complex. Its functionalities primarily exist in the background.<br/>
+There are only 3 functionalities accessible from windows (excluding starting the application).<br/>
 These functionalities can be accessed by right clicking on the system tray icon as such.<br/>
 <img src=".\readmeImages\gui.png" width="200px">
 
 1. Revert Control
-    * This reverts led control back to iCue. 
+    * This reverts led control back to iCUE. 
     * For example, if you set the Leds to a color from iCueConnect-Android App, then they will stay that color unless you click **Revert Control**.
         > Note: The iCueConnect-Android App also has this same functionality, but it is the <img src="https://www.iconsdb.com/icons/preview/white/refresh-2-xxl.png" width="20px"> icon.
-2. Quit
+
+2. Test
+    * This allows you to test that both the API and Android App are working as intended.
+    * By clicking this, all your leds will pulse white, turn red one after another, and pulse white again before reverting back to normal. At the same time you should receive a notification on your iCue Connect app.
+
+3. Quit
     * This closes the application.
 
 ## Help
 * Leds not updating according to your phones selection? Follow these trouble shooting steps.
-    * Make sure that iCue is running in the background and that the **Enable SDK** option is set in the settings.
-    * Sometimes iCue will need to be reopened. Try that.
+    * Select the **Test** button from the iCue Connect API.
+    * Make sure that iCUE is running in the background and that the **Enable SDK** option is set in the settings.
+    * Sometimes iCUE will need to be restarted. Try that.
     * Make sure your Pusher credentials are correct on both devices. 
         > Note: If you enter an incorrect key for the windows app, simply go into the iCueConnect folder and delete the **data.json** file, and run the iCueConnect.exe again.
     * Pusher credentials are correct, but leds are still not updating? Try running iCueConnect.exe as an administrator.
@@ -86,10 +92,6 @@ These functionalities can be accessed by right clicking on the system tray icon 
 
 ## Disclaimer 
 **I do work for nor did I partner up with Corsair to produce this application. I am simply an enthusiast who just wanted to bring an idea to life.**
-  
-## Version History
-* 1.0
-    * Initial Release
 
 # For Developers
 ## Language of Choice
@@ -101,7 +103,9 @@ iCueConnect is a Python based application that utilizes the following:
 * [PyQt5: 5.15.2](https://www.qt.io/)
 * [websocket-client: 0.48.0](https://github.com/websocket-client/websocket-client)
 * [Pysher: 1.0.3](https://github.com/deepbrook/Pysher)
+* [Pusher 3.0](https://github.com/pusher/pusher-http-python)
 * [six: 1.15.0](https://github.com/benjaminp/six)
+* [jsonpickle 2.0](https://github.com/jsonpickle/jsonpickle)
 * [PyInstaller: 5.0.dev0](http://www.pyinstaller.org/)
     * This is what I used to develop the .exe file.
 >Note: There is a bug with the Pysher library that is caused due to changes in the websocket-client library. To get around this I strictly had to use the listed version for websocket-client, Pysher and six.
