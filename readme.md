@@ -91,7 +91,7 @@ These functionalities can be accessed by right clicking on the system tray icon 
   * If the setting is enabled, then you will need to make sure that battery optimization is disabled for the android app.
 
 ## Disclaimer 
-**I do work for nor did I partner up with Corsair to produce this application. I am simply an enthusiast who just wanted to bring an idea to life.**
+**I do not work for nor did I partner up with Corsair to produce this application. I am simply an enthusiast who just wanted to bring an idea to life.**
 
 # For Developers
 ## Language of Choice
