@@ -52,14 +52,14 @@ iCueConnect uses Pusher for realtime communication between iCueConnect-Android A
 3. Click **More info**, then click **Run anyway**. 
     > Note: Your antivirus may not recognize this application and delete it thinking it is a threat. In this case you will need to whitelist the application.
 4. Since this is the first time the application is being run, it will prompt you for your Pusher information. Enter the information **WITHOUT THE QUOTATION MARKS**.
-    > Note: If you enter any of the values incorrectly, simply go into the iCueConnect folder that we created earlier, delete the **data.json** file, and run the iCueConnect.exe again. 
+    > Note: If you enter any of the values incorrectly, simply right click on the iCueConnect app icon in the system tray and click **Pusher Credentials**. 
 5. Click "OK" and iCueConnect.exe will run in the background.
     > Note: The application can be accessed from the windows system tray.
 6. At this point, your PC is set up and ready to go. If you haven't already done so, download and setup [iCueConnect-Android](https://github.com/ScreamingOranges/iCueConnect-Android) App.
 
 ## How To Use
 As mentioned prior, this application is not complex. Its functionalities primarily exist in the background.<br/>
-There are only 3 functionalities accessible from windows (excluding starting the application).<br/>
+There are only 4 functionalities accessible from windows (excluding starting the application).<br/>
 These functionalities can be accessed by right clicking on the system tray icon as such.<br/>
 <img src=".\readmeImages\gui.png" width="200px">
 
@@ -72,7 +72,9 @@ These functionalities can be accessed by right clicking on the system tray icon 
     * This allows you to test that both the API and Android App are working as intended.
     * By clicking this, all your leds will pulse white, turn red one after another, and pulse white again before reverting back to normal. At the same time you should receive a notification on your iCue Connect app.
 
-3. Quit
+3. Pusher Credentials
+    * This allows you to view/edit your Pusher Credentials.
+4. Quit
     * This closes the application.
 
 ## Help
@@ -81,7 +83,7 @@ These functionalities can be accessed by right clicking on the system tray icon 
     * Make sure that iCUE is running in the background and that the **Enable SDK** option is set in the settings.
     * Sometimes iCUE will need to be restarted. Try that.
     * Make sure your Pusher credentials are correct on both devices. 
-        > Note: If you enter an incorrect key for the windows app, simply go into the iCueConnect folder and delete the **data.json** file, and run the iCueConnect.exe again.
+        > Note: If you enter any of the values incorrectly, simply right click on the iCueConnect app icon in the system tray and click **Pusher Credentials**. 
     * Pusher credentials are correct, but leds are still not updating? Try running iCueConnect.exe as an administrator.
 * Leds are extremely delayed?
     * Leds on occasion can become delayed, however if there is a continues long delay then try setting iCueConnect's priority to realtime or high. Don't know how to do this? Check this [tutorial](https://winaero.com/change-process-priority-windows-10/) out then!
