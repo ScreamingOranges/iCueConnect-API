@@ -29,7 +29,21 @@ def checkJsonFile():
             data = {"pusherAppID":pusherCreds[0],"pusherKey":pusherCreds[1],"pusherSecret":pusherCreds[2],"pusherCluster":pusherCreds[3]}
             with open('data.json', 'w') as outfile:
                 json.dump(data, outfile)
-            
+
+def pusherCredentials():
+    global pusherCreds
+    if os.path.exists("./data.json"):
+        with open('data.json', 'r') as openfile:
+            json_object = json.load(openfile)
+        pusherCreds = json_object["pusherAppID"], json_object["pusherKey"], json_object["pusherSecret"], json_object["pusherCluster"]
+    ex = inputGUI.inputGUI(pusherCreds)
+    ex.show()
+    if ex.exec_() == inputGUI.inputGUI.Accepted:
+        pusherCreds = ex.pCred
+        data = {"pusherAppID":pusherCreds[0],"pusherKey":pusherCreds[1],"pusherSecret":pusherCreds[2],"pusherCluster":pusherCreds[3]}
+        with open('data.json', 'w') as outfile:
+            json.dump(data, outfile)
+
 def colorResetCall():
     conn = icueConnect.icueConnect()
     conn.releaseControl()
@@ -74,6 +88,10 @@ def main():
     iCueSDK_Test = PyQt5.QtWidgets.QAction("Test")
     iCueSDK_Test.triggered.connect(iCueSDK_TestCall)
     menu.addAction(iCueSDK_Test)
+    # To change Pusher Creds
+    pusher_credentials = PyQt5.QtWidgets.QAction("Pusher Credentials")
+    pusher_credentials.triggered.connect(pusherCredentials)
+    menu.addAction(pusher_credentials)
     # To quit the app
     quit = PyQt5.QtWidgets.QAction("Quit")
     quit.triggered.connect(app.quit)

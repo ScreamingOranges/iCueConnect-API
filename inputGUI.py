@@ -3,28 +3,36 @@ import PyQt5
 import PyQt5.QtWidgets
 
 class inputGUI(PyQt5.QtWidgets.QDialog):
-    def __init__(self, parent = None):
-        super(inputGUI, self).__init__(parent)
+    def __init__(self, pusherCreds = None):
+        super(inputGUI, self).__init__(None)
         layout = PyQt5.QtWidgets.QFormLayout()
 
         self.btnAppID = PyQt5.QtWidgets.QPushButton("Enter app_id")
         self.btnAppID.clicked.connect(self.getAppID)
         self.leAppID = PyQt5.QtWidgets.QLabel()
+        if pusherCreds != None:
+            self.leAppID.setText(str(pusherCreds[0]))
         layout.addRow(self.btnAppID,self.leAppID)
 
         self.btnKey = PyQt5.QtWidgets.QPushButton("Enter key")
         self.btnKey.clicked.connect(self.getKey)
         self.leKey = PyQt5.QtWidgets.QLabel()
+        if pusherCreds != None:
+            self.leKey.setText(str(pusherCreds[1]))
         layout.addRow(self.btnKey,self.leKey)
 
         self.btnSecret = PyQt5.QtWidgets.QPushButton("Enter secret")
         self.btnSecret.clicked.connect(self.getSecret)
         self.leSecret = PyQt5.QtWidgets.QLabel()
+        if pusherCreds != None:
+            self.leSecret.setText(str(pusherCreds[2]))
         layout.addRow(self.btnSecret,self.leSecret)
         
         self.btnCluster = PyQt5.QtWidgets.QPushButton("Choose cluster")
         self.btnCluster.clicked.connect(self.chooseCluster)
         self.leCluster = PyQt5.QtWidgets.QLabel()
+        if pusherCreds != None:
+            self.leCluster.setText(str(pusherCreds[3]))
         layout.addRow(self.btnCluster,self.leCluster)
         
         self.btnAccept = PyQt5.QtWidgets.QPushButton("Submit")
