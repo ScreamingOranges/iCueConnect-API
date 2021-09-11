@@ -61,7 +61,7 @@ iCueConnect uses Pusher for realtime communication between iCueConnect-Android A
 As mentioned prior, this application is not complex. Its functionalities primarily exist in the background.<br/>
 There are only 4 functionalities accessible from windows (excluding starting the application).<br/>
 These functionalities can be accessed by right clicking on the system tray icon as such.<br/>
-<img src=".\readmeImages\gui.png" width="200px">
+<img src=".\readmeImages\v4gui.png" width="200px">
 
 1. Revert Control
     * This reverts led control back to iCUE. 
@@ -70,7 +70,7 @@ These functionalities can be accessed by right clicking on the system tray icon 
 
 2. Test
     * This allows you to test that both the API and Android App are working as intended.
-    * By clicking this, all your leds will pulse white, turn red one after another, and pulse white again before reverting back to normal. At the same time you should receive a notification on your iCue Connect app.
+    * By clicking this, all your leds will pulse white, turn red one after another, and pulse white again before reverting back to normal. At the same time you should receive a notification on your iCueConnect app.
 
 3. Pusher Credentials
     * This allows you to view/edit your Pusher Credentials.
@@ -79,7 +79,7 @@ These functionalities can be accessed by right clicking on the system tray icon 
 
 ## Help
 * Leds not updating according to your phones selection? Follow these trouble shooting steps.
-    * Select the **Test** button from the iCue Connect API.
+    * Select the **Test** button from the iCueConnect API.
     * Make sure that iCUE is running in the background and that the **Enable SDK** option is set in the settings.
     * Sometimes iCUE will need to be restarted. Try that.
     * Make sure your Pusher credentials are correct on both devices. 
