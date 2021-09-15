@@ -6,12 +6,11 @@ import PyQt5.QtWidgets
 import threading
 import json 
 import pusherConnect
-import inputGUI
+import helperGUI
 import icueConnect
 import tray_rc
 import pusher
 import jsonpickle
-
 
 
 def startDaemonThread():
@@ -20,15 +19,27 @@ def startDaemonThread():
     thread_P.start()
 
 def checkJsonFile():
+    credCheck = True
     if not os.path.exists("./data.json"):
         global pusherCreds 
-        ex = inputGUI.inputGUI()
+        ex = helperGUI.inputGUI()
         ex.show()
-        if ex.exec_() == inputGUI.inputGUI.Accepted:
+        if ex.exec_() == helperGUI.inputGUI.Accepted:
             pusherCreds = ex.pCred
             data = {"pusherAppID":pusherCreds[0],"pusherKey":pusherCreds[1],"pusherSecret":pusherCreds[2],"pusherCluster":pusherCreds[3]}
             with open('data.json', 'w') as outfile:
                 json.dump(data, outfile)
+    else:
+        if os.path.exists("./data.json"):
+            with open('data.json', 'r') as openfile:
+                json_object = json.load(openfile)
+            pusherCreds = json_object["pusherAppID"], json_object["pusherKey"], json_object["pusherSecret"], json_object["pusherCluster"]
+    try:
+        pusher_client = pusher.Pusher(app_id=pusherCreds[0], key=pusherCreds[1], secret=pusherCreds[2], cluster=pusherCreds[3])
+    except ValueError as err:
+        helperGUI.popUpNotice("Pusher Connection Failed. Check Your Credentials.", "Critical")
+        credCheck = False
+    return credCheck
 
 def pusherCredentials():
     global pusherCreds
@@ -36,9 +47,9 @@ def pusherCredentials():
         with open('data.json', 'r') as openfile:
             json_object = json.load(openfile)
         pusherCreds = json_object["pusherAppID"], json_object["pusherKey"], json_object["pusherSecret"], json_object["pusherCluster"]
-    ex = inputGUI.inputGUI(pusherCreds)
+    ex = helperGUI.inputGUI(pusherCreds)
     ex.show()
-    if ex.exec_() == inputGUI.inputGUI.Accepted:
+    if ex.exec_() == helperGUI.inputGUI.Accepted:
         pusherCreds = ex.pCred
         data = {"pusherAppID":pusherCreds[0],"pusherKey":pusherCreds[1],"pusherSecret":pusherCreds[2],"pusherCluster":pusherCreds[3]}
         with open('data.json', 'w') as outfile:
@@ -57,8 +68,11 @@ def iCueSDK_TestCall():
             pusherKey = json_object["pusherKey"]
             pusherSecret = json_object["pusherSecret"]
             pusherCluster = json_object["pusherCluster"]
-    pusher_client = pusher.Pusher(app_id=pusherID, key=pusherKey, secret=pusherSecret, cluster=pusherCluster)
-    pusher_client.trigger(u'api_Callback', u'test_event', jsonpickle.encode("The iCue Connect API Is Communicating Properly With Your Device!"))
+    try:
+        pusher_client = pusher.Pusher(app_id=pusherID, key=pusherKey, secret=pusherSecret, cluster=pusherCluster)
+        pusher_client.trigger(u'api_Callback', u'test_event', jsonpickle.encode("The iCue Connect API Is Communicating Properly With Your Device!"))
+    except ValueError as err:
+        helperGUI.popUpNotice("Pusher Connection Failed. Check Your Credentials.", "Critical")
     conn = icueConnect.icueConnect()
     conn.requestControl()
     conn.perform_pulse_effect(300, [255, 255, 255])
@@ -69,10 +83,14 @@ def iCueSDK_TestCall():
     conn.releaseControl()
     del conn
 
+
 def main():
     app = PyQt5.QtWidgets.QApplication(sys.argv)
-    checkJsonFile()
-    startDaemonThread()
+    credentialCheck = checkJsonFile()
+    if credentialCheck:
+        startDaemonThread()
+    else:
+        sys.exit("Pusher Connection Failed. Check Your Credentials.")
     # Adding an icon
     icon = PyQt5.QtGui.QIcon(":icon.png")
     # Adding item on the menu bar
