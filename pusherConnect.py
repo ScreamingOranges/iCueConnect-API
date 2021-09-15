@@ -8,6 +8,7 @@ import os
 import PyQt5
 import PyQt5.QtWidgets
 import icueConnect
+import helperGUI
 import pusher
 
 
@@ -31,7 +32,10 @@ class pusherConnect:
         pusher_server = pysher.Pusher(key=pusherKey, cluster=pusherCluster)
         pusher_server.connection.bind('pusher:connection_established', self.connect_handler)
         pusher_server.connect()
-        pusher_client = pusher.Pusher(app_id=pusherID, key=pusherKey, secret=pusherSecret, cluster=pusherCluster)
+        try:
+            pusher_client = pusher.Pusher(app_id=pusherID, key=pusherKey, secret=pusherSecret, cluster=pusherCluster)
+        except ValueError as err:
+            print("Pusher Connection Failed. Check Your Credentials!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         while True:
             # Do other things in the meantime here...
             time.sleep(1)
