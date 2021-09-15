@@ -1,6 +1,7 @@
 import sys
 import PyQt5
 import PyQt5.QtWidgets
+import PyQt5.QtWidgets
 
 class inputGUI(PyQt5.QtWidgets.QDialog):
     def __init__(self, pusherCreds = None):
@@ -70,16 +71,29 @@ class inputGUI(PyQt5.QtWidgets.QDialog):
         self.pCred = self.leAppID.text(), self.leKey.text(), self.leSecret.text(), self.leCluster.text()
         self.accept()
     
+class popUpNotice():
+    def __init__(self, message, iconChoice):
+        self.show_popup(message, iconChoice)
 
+    def show_popup(self, message, iconChoice):
+        msg = PyQt5.QtWidgets.QMessageBox()
+        msg.setWindowTitle("iCueConnect Notice")
+        msg.setWindowIcon(PyQt5.QtGui.QIcon(":icon.png"))
+        msg.setText(message)
+        msg.setIcon(PyQt5.QtWidgets.QMessageBox.Critical)
+        if "NoIcon" in iconChoice:
+            msg.setIcon(PyQt5.QtWidgets.QMessageBox.NoIcon)
+        elif "Question" in iconChoice:
+            msg.setIcon(PyQt5.QtWidgets.QMessageBox.Question)
+        elif "Information" in iconChoice:
+            msg.setIcon(PyQt5.QtWidgets.QMessageBox.Information)
+        elif "Warning" in iconChoice:
+            msg.setIcon(PyQt5.QtWidgets.QMessageBox.Warning)
+        elif "Critical" in iconChoice:
+            msg.setIcon(PyQt5.QtWidgets.QMessageBox.Critical)
+        msg.exec_()
 
 """
-#OLD EXAMPLE CALL
-app = PyQt5.QtWidgets.QApplication(sys.argv)
-app.setQuitOnLastWindowClosed(False)
-pusherKey = inputGUI().getText()
-
-
-
 #NEW EXAMPLE CALL
 def main(): 
     global pusherCreds 
