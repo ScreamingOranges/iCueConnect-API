@@ -86,11 +86,11 @@ def iCueSDK_TestCall():
 
 def main():
     app = PyQt5.QtWidgets.QApplication(sys.argv)
-    credentialCheck = checkJsonFile()
-    if credentialCheck:
+    if checkJsonFile():
         startDaemonThread()
     else:
-        sys.exit("Pusher Connection Failed. Check Your Credentials.")
+        pusherCredentials()
+        sys.exit("Pusher Connection Failed. Checking Your Updated Credentials On Next Start.")
     # Adding an icon
     icon = PyQt5.QtGui.QIcon(":icon.png")
     # Adding item on the menu bar
