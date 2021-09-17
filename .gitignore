@@ -4,5 +4,5 @@ dist/**
 *.exe
 *.spec
 *.json
-commandHelp.txt
+commandHelp.bat
 todo.txt
