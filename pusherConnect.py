@@ -6,7 +6,6 @@ import json
 import jsonpickle
 import os 
 import icueConnect
-import helperGUI
 import pusher
 
 
