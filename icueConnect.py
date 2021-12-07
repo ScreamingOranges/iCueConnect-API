@@ -2,7 +2,7 @@ import cuesdk
 import time
 
 class icueConnect:
-    def get_available_leds(self):
+    def __get_available_leds(self):
         leds = list()
         device_count = self.__sdk.get_device_count()
         for device_index in range(device_count):
@@ -127,7 +127,7 @@ class icueConnect:
             err = self.__sdk.get_last_error()
             print("Handshake failed: %s" % err)
             return
-        self.__all_leds = self.get_available_leds()
+        self.__all_leds = self.__get_available_leds()
         self.__devicesIdMap = self.getDevicesIdMap()
         if not self.__all_leds:
             return      
