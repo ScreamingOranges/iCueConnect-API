@@ -8,6 +8,7 @@ import json
 import pusherConnect
 import helperGUI
 import icueConnect
+#used for window icon
 import tray_rc
 import pusher
 import jsonpickle
