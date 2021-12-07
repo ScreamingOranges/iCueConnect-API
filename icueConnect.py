@@ -4,18 +4,18 @@ import time
 class icueConnect:
     def get_available_leds(self):
         leds = list()
-        device_count = sdk.get_device_count()
+        device_count = self.__sdk.get_device_count()
         for device_index in range(device_count):
-            led_positions = sdk.get_led_positions_by_device_index(device_index)
+            led_positions = self.__sdk.get_led_positions_by_device_index(device_index)
             leds.append(led_positions)
-            deviceToLed[device_index] = led_positions
-            dev = sdk.get_device_info(device_index)
+            self.__deviceToLed[device_index] = led_positions
+            dev = self.__sdk.get_device_info(device_index)
         return leds
 
     #returns a dictionary. key=channelDevice.type & value=list of leds in channelDevices in channel
     #example output: subDevices = {"LL_Fan": [16, 16, 16, 16], "HD_Fan": [12]}
     def getSubDevices(self, device):
-        devInfo = sdk.get_device_info(device)
+        devInfo = self.__sdk.get_device_info(device)
         channelDevices = {}
         for channel in devInfo.channels:
             cDevices = []
@@ -31,7 +31,7 @@ class icueConnect:
         return channelDevices
 
     def setSubDeviceLeds(self, device, subDevice, RGB_val):
-        devInfo = sdk.get_device_info(device)
+        devInfo = self.__sdk.get_device_info(device)
         channelLeds = {}
         for channel in devInfo.channels:
             devName = ""
@@ -48,92 +48,88 @@ class icueConnect:
         if len(devInfo.channels) > 1:
             cIndex = list(channelLeds.keys()).index(subDevice)+1
             cIndex = "C"+str(cIndex)
-            for led in deviceToLed[device]:
+            for led in self.__deviceToLed[device]:
                 if cIndex in str(led):
-                    deviceToLed[device][led] = (RGB_val[0],RGB_val[1],RGB_val[2])
+                    self.__deviceToLed[device][led] = (RGB_val[0],RGB_val[1],RGB_val[2])
         else:
-            for led in deviceToLed[device]:
-                deviceToLed[device][led] = (RGB_val[0],RGB_val[1],RGB_val[2])
-        sdk.set_led_colors_buffer_by_device_index(device, deviceToLed[device])
-        sdk.set_led_colors_flush_buffer()
+            for led in self.__deviceToLed[device]:
+                self.__deviceToLed[device][led] = (RGB_val[0],RGB_val[1],RGB_val[2])
+        self.__sdk.set_led_colors_buffer_by_device_index(device, self.__deviceToLed[device])
+        self.__sdk.set_led_colors_flush_buffer()
 
     def getDeviceInfo(self,device):
-        return sdk.get_device_info(device)
+        return self.__sdk.get_device_info(device)
 
     def getDevicesIdMap(self):
         deviceMap = {}
-        devices = sdk.get_devices()
+        devices = self.__sdk.get_devices()
         for device in range(len(devices)):
             deviceMap[device] = devices[device].model
         return deviceMap
 
     def setLedsByDevice(self, device,RGB_val):
-        for led in deviceToLed[device]:
-            deviceToLed[device][led] = (RGB_val[0],RGB_val[1],RGB_val[2])
-        sdk.set_led_colors_buffer_by_device_index(device, deviceToLed[device])
-        sdk.set_led_colors_flush_buffer()
+        for led in self.__deviceToLed[device]:
+            self.__deviceToLed[device][led] = (RGB_val[0],RGB_val[1],RGB_val[2])
+        self.__sdk.set_led_colors_buffer_by_device_index(device, self.__deviceToLed[device])
+        self.__sdk.set_led_colors_flush_buffer()
 
     def requestControl(self):
-        sdk.request_control()
+        self.__sdk.request_control()
 
     def releaseControl(self):
-        sdk.release_control()
+        self.__sdk.release_control()
 
     def perform_pulse_effect(self,wave_duration,RGB_val):
         time_per_frame = 25
         x = 0
-        cnt = len(all_leds)
+        cnt = len(self.__all_leds)
         dx = time_per_frame / wave_duration
         while x < 2:
             val_R = int((1 - (x - 1)**2) * int(RGB_val[0]))
             val_G = int((1 - (x - 1)**2) * int(RGB_val[1]))
             val_B = int((1 - (x - 1)**2) * int(RGB_val[2]))
             for di in range(cnt):
-                device_leds = all_leds[di]
+                device_leds = self.__all_leds[di]
                 for led in device_leds:
                     device_leds[led] = (val_R, val_G, val_B)
-                sdk.set_led_colors_buffer_by_device_index(di, device_leds)
-            sdk.set_led_colors_flush_buffer()
+                self.__sdk.set_led_colors_buffer_by_device_index(di, device_leds)
+            self.__sdk.set_led_colors_flush_buffer()
             time.sleep(time_per_frame / 1000)
             x += dx
         time.sleep(.05)
 
     def solidColor(self,RGB_val):
-        cnt = len(all_leds)
+        cnt = len(self.__all_leds)
         for di in range(cnt):
-            device_leds = all_leds[di]
+            device_leds = self.__all_leds[di]
             for led in device_leds:
                 #print(led)
                 device_leds[led] = (RGB_val[0],RGB_val[1],RGB_val[2])
-            sdk.set_led_colors_buffer_by_device_index(di, device_leds)
-        sdk.set_led_colors_flush_buffer()
+            self.__sdk.set_led_colors_buffer_by_device_index(di, device_leds)
+        self.__sdk.set_led_colors_flush_buffer()
 
     def delayedSolidColor(self, interval,RGB_val):
-        cnt = len(all_leds)
+        cnt = len(self.__all_leds)
         for di in range(cnt):
-            device_leds = all_leds[di]
+            device_leds = self.__all_leds[di]
             for led in device_leds:
                 device_leds[led] = (RGB_val[0],RGB_val[1],RGB_val[2])
                 time.sleep(interval)
-                sdk.set_led_colors_buffer_by_device_index(di, device_leds)
-                sdk.set_led_colors_flush_buffer()
+                self.__sdk.set_led_colors_buffer_by_device_index(di, device_leds)
+                self.__sdk.set_led_colors_flush_buffer()
 
     def __init__(self):
-        global sdk
-        global all_leds
-        global deviceToLed
-        global devicesIdMap
-        deviceToLed = {}
-        devicesIdMap = {}
-        sdk = cuesdk.CueSdk()
-        connected = sdk.connect()
+        self.__deviceToLed = {}
+        self.__devicesIdMap = {}
+        self.__sdk = cuesdk.CueSdk()
+        connected = self.__sdk.connect()
         if not connected:
-            err = sdk.get_last_error()
+            err = self.__sdk.get_last_error()
             print("Handshake failed: %s" % err)
             return
-        all_leds = self.get_available_leds()
-        devicesIdMap = self.getDevicesIdMap()
-        if not all_leds:
+        self.__all_leds = self.get_available_leds()
+        self.__devicesIdMap = self.getDevicesIdMap()
+        if not self.__all_leds:
             return      
 
 
