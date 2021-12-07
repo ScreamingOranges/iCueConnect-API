@@ -1,4 +1,3 @@
-import sys
 import PyQt5
 import PyQt5.QtWidgets
 import PyQt5.QtWidgets
