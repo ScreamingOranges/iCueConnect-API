@@ -5,7 +5,10 @@ import logging
 import json
 import jsonpickle
 import os 
+import PyQt5
+import PyQt5.QtWidgets
 import icueConnect
+import helperGUI
 import pusher
 
 
@@ -24,48 +27,54 @@ class pusherConnect:
         ch = logging.StreamHandler(sys.stdout)
         root.addHandler(ch)
         #end logging
-        self.__conn = icueConnect.icueConnect()
-        self.__pusher_server = pysher.Pusher(key=pusherKey, cluster=pusherCluster)
-        self.__pusher_server.connection.bind('pusher:connection_established', self.__connect_handler)
-        self.__pusher_server.connect()
+        global pusher_client
+        global pusher_server
+        pusher_server = pysher.Pusher(key=pusherKey, cluster=pusherCluster)
+        pusher_server.connection.bind('pusher:connection_established', self.connect_handler)
+        pusher_server.connect()
         try:
-            self.__pusher_client = pusher.Pusher(app_id=pusherID, key=pusherKey, secret=pusherSecret, cluster=pusherCluster)
+            pusher_client = pusher.Pusher(app_id=pusherID, key=pusherKey, secret=pusherSecret, cluster=pusherCluster)
         except ValueError as err:
             print("Pusher Connection Failed. Check Your Credentials!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         while True:
             # Do other things in the meantime here...
             time.sleep(1)
 
-    # We can't subscribe until we've connected, so we use a callback handler to subscribe when able
-    def __connect_handler(self, data):
-        channel = self.__pusher_server.subscribe('RGB_CONN')  # channel: RGB_CONN
-        channel.bind('PULSE', self.__my_func)            # event:   PULSE
-
-    def __my_func(self, *args, **kwargs):
+    def  my_func(self, *args, **kwargs):
         print("processing Args:", args)
         #print("processing Kwargs:", kwargs)
         result = args[0]
         #print(result)
         result = json.loads(result)
-        
+        conn = icueConnect.icueConnect()
         if "RGB_PULSE" in result:
-            self.__conn.requestControl()
+            conn.requestControl()
             RGB_val = result["RGB_PULSE"]
-            self.__conn.perform_pulse_effect(1000,RGB_val)
-            self.__conn.releaseControl()
+            conn.perform_pulse_effect(1000,RGB_val)
+            conn.releaseControl()
         elif "RGB_SOLID" in result:
-            self.__conn.requestControl()
+            conn.requestControl()
             RGB_val = result["RGB_SOLID"]
             RGB_DEVICE = result["RGB_DEVICE"][0]
             if RGB_DEVICE == 0:
-                self.__conn.solidColor(RGB_val)
+                conn.solidColor(RGB_val)
             else:
-                self.__conn.setLedsByDevice((RGB_DEVICE-1), RGB_val)
+                conn.setLedsByDevice((RGB_DEVICE-1), RGB_val)
         elif "RGB_RESET" in result:
-            self.__conn.releaseControl()
+            conn.releaseControl()
         elif "Request_SubDevices" in result:
-            devices = self.__conn.getDevicesIdMap()
+            devices = conn.getDevicesIdMap()
             devices = jsonpickle.encode(devices, unpicklable=False)
             print(devices)
-            self.__pusher_client.trigger(u'api_Callback', u'api_event', devices)
-        
+            pusher_client.trigger(u'api_Callback', u'api_event', devices)
+        del conn
+
+    # We can't subscribe until we've connected, so we use a callback handler to subscribe when able
+    def connect_handler(self, data):
+        channel = pusher_server.subscribe('RGB_CONN')  # channel: RGB_CONN
+        channel.bind('PULSE', self.my_func)            # event:   PULSE
+
+"""
+#example call
+pusherConnect()
+"""
