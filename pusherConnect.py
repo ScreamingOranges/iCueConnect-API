@@ -39,10 +39,9 @@ class pusherConnect:
             time.sleep(1)
 
     def __my_func(self, *args, **kwargs):
-        print("processing Args:", args)
+        print("Processing Args:", args)
         #print("processing Kwargs:", kwargs)
         result = args[0]
-        #print(result)
         result = json.loads(result)
         conn = icueConnect.icueConnect()
         if "RGB_PULSE" in result:
@@ -63,7 +62,7 @@ class pusherConnect:
         elif "Request_SubDevices" in result:
             devices = conn.getDevicesIdMap()
             devices = jsonpickle.encode(devices, unpicklable=False)
-            print(devices)
+            print(f"Connected Devices: {devices}")
             self.pusher_client.trigger(u'api_Callback', u'api_event', devices)
         else:
             print(f"Unknown Request:\n{result}")
@@ -72,7 +71,7 @@ class pusherConnect:
     # We can't subscribe until we've connected, so we use a callback handler to subscribe when able
     def __connect_handler(self, data):
         channel = self.pusher_server.subscribe('RGB_CONN')  # channel: RGB_CONN
-        channel.bind('PULSE', self.__my_func)            # event:   PULSE
+        channel.bind('PULSE', self.__my_func)               # event:   PULSE
 
 """
 #example call
