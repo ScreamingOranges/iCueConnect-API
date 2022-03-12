@@ -5,10 +5,8 @@ import logging
 import json
 import jsonpickle
 import os 
-import PyQt5
 import PyQt5.QtWidgets
 import icueConnect
-import helperGUI
 import pusher
 
 
