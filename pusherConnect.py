@@ -38,12 +38,13 @@ class pusherConnect:
             # Do other things in the meantime here...
             time.sleep(1)
 
-    def __my_func(self, *args, **kwargs):
+    def __event_handler(self, *args, **kwargs):
         print("Processing Args:", args)
         #print("processing Kwargs:", kwargs)
         result = args[0]
         result = json.loads(result)
         conn = icueConnect.icueConnect()
+        #Sub event handling
         if "RGB_PULSE" in result:
             conn.requestControl()
             RGB_val = result["RGB_PULSE"]
@@ -71,7 +72,7 @@ class pusherConnect:
     # We can't subscribe until we've connected, so we use a callback handler to subscribe when able
     def __connect_handler(self, data):
         channel = self.pusher_server.subscribe('RGB_CONN')  # channel: RGB_CONN
-        channel.bind('PULSE', self.__my_func)               # event:   PULSE
+        channel.bind('PULSE', self.__event_handler)         # event:   PULSE
 
 """
 #example call
