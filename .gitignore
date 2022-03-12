@@ -6,3 +6,6 @@ dist/**
 *.json
 commandHelp.bat
 todo.txt
+*.sqlite
+*.sqlite-journal
+*.suo
