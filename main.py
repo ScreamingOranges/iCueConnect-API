@@ -80,9 +80,9 @@ class main:
     def __init__(self):
         app = PyQt5.QtWidgets.QApplication(sys.argv)
         if self.__checkJsonFile():
-                self.thread_P = threading.Thread(target = pusherConnect.pusherConnect)
-                self.thread_P.setDaemon(True)
-                self.thread_P.start()
+            self.thread_P = threading.Thread(target = pusherConnect.pusherConnect)
+            self.thread_P.setDaemon(True)
+            self.thread_P.start()
         else:
             self.__pusherCredentials()
             sys.exit("Pusher Connection Failed. Checking Your Updated Credentials On Next Start.")
