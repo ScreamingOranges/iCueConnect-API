@@ -41,11 +41,7 @@ class main:
         conn.releaseControl()
         del conn
     
-    def __pusherCredentials(self):
-        if os.path.exists("./data.json"):
-            with open('data.json', 'r') as openfile:
-                json_object = json.load(openfile)
-            self.pusherCreds = json_object["pusherAppID"], json_object["pusherKey"], json_object["pusherSecret"], json_object["pusherCluster"]
+    def __updatePusherCredentials(self):
         ex = helperGUI.inputGUI(self.pusherCreds)
         ex.show()
         if ex.exec_() == helperGUI.inputGUI.Accepted:
@@ -56,8 +52,8 @@ class main:
     
     def __checkJsonFile(self):
         credCheck = True
+        #If data.json doesnt exist
         if not os.path.exists("./data.json"):
-            self.pusherCreds = None
             ex = helperGUI.inputGUI()
             ex.show()
             if ex.exec_() == helperGUI.inputGUI.Accepted:
@@ -65,13 +61,15 @@ class main:
                 data = {"pusherAppID":self.pusherCreds[0],"pusherKey":self.pusherCreds[1],"pusherSecret":self.pusherCreds[2],"pusherCluster":self.pusherCreds[3]}
                 with open('data.json', 'w') as outfile:
                     json.dump(data, outfile)
+        #If data.json does exist
         else:
             if os.path.exists("./data.json"):
                 with open('data.json', 'r') as openfile:
                     json_object = json.load(openfile)
                 self.pusherCreds = json_object["pusherAppID"], json_object["pusherKey"], json_object["pusherSecret"], json_object["pusherCluster"]
+        #Test pusher connection with credentials
         try:
-            pusher_client = pusher.Pusher(app_id=self.pusherCreds[0], key=self.pusherCreds[1], secret=self.pusherCreds[2], cluster=self.pusherCreds[3])
+            pusher.Pusher(app_id=self.pusherCreds[0], key=self.pusherCreds[1], secret=self.pusherCreds[2], cluster=self.pusherCreds[3])
         except ValueError as err:
             helperGUI.popUpNotice("Pusher Connection Failed. Check Your Credentials.", "Critical")
             credCheck = False
@@ -84,7 +82,7 @@ class main:
             self.thread_P.setDaemon(True)
             self.thread_P.start()
         else:
-            self.__pusherCredentials()
+            self.__updatePusherCredentials()
             sys.exit("Pusher Connection Failed. Checking Your Updated Credentials On Next Start.")
         # Adding an icon
         icon = PyQt5.QtGui.QIcon(":icon.png")
@@ -103,7 +101,7 @@ class main:
         menu.addAction(iCueSDK_Test)
         # To change Pusher Creds
         pusher_credentials = PyQt5.QtWidgets.QAction("Pusher Credentials")
-        pusher_credentials.triggered.connect(self.__pusherCredentials)
+        pusher_credentials.triggered.connect(self.__updatePusherCredentials)
         menu.addAction(pusher_credentials)
         # To quit the app
         quit = PyQt5.QtWidgets.QAction("Quit")
