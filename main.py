@@ -36,7 +36,7 @@ class main:
         conn.releaseControl()
         del conn
     
-    def __colorResetCall(SELF):
+    def __colorResetCall(self):
         conn = icueConnect.icueConnect()
         conn.releaseControl()
         del conn
